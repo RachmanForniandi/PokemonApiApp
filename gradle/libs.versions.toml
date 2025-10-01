@@ -25,6 +25,7 @@ navigationComposeAndroid = "2.9.4"
 hiltNavCompose="1.3.0"
 pagingCompose="1.0.0-alpha17"
 coil ="2.4.0"
+datastore="1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,8 @@ coil-compose={ module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 chucker-library ={module = "com.github.chuckerteam.chucker:library",version.ref="chuckerVersion"}
 chucker-no-op ={module = "com.github.chuckerteam.chucker:library-no-op",version.ref="chuckerVersion"}
+
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }

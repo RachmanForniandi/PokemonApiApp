@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import rachman.forniandi.pokemonapiapp.Screen
 import rachman.forniandi.pokemonapiapp.presentation.auth.LoginScreen
 import rachman.forniandi.pokemonapiapp.presentation.auth.RegisterScreen
+import rachman.forniandi.pokemonapiapp.presentation.detail.DetailScreen
 
 @Composable
 fun PokeAppNav(modifier: Modifier = Modifier) {
@@ -20,6 +21,10 @@ fun PokeAppNav(modifier: Modifier = Modifier) {
         startDestination = Screen.Login.route,
         modifier = modifier
     ) {
+        //check session
+        /*composable(Screen.CheckSession.route) {
+            CheckSession(navController = navController)
+        }*/
 
         //login
         composable(Screen.Login.route) {
@@ -35,19 +40,19 @@ fun PokeAppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // register
+        //register
         composable(Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = { navController.popBackStack() } // kembali ke login
             )
         }
 
-        // Main
+        //main
         composable(Screen.Main.route) {
             MainScreen(navController = navController)
         }
 
-        // Detail
+        //detail
         composable(
             route = Screen.Detail.route,
             arguments = listOf(navArgument("name") { type = NavType.StringType })

@@ -1,5 +1,6 @@
-package rachman.forniandi.pokemonapiapp.presentation
+package rachman.forniandi.pokemonapiapp.presentation.detail
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ fun DetailScreen(
     val pokemon = viewModel.selectedPokemon
 
     if (pokemon == null) {
+
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -51,6 +53,7 @@ fun DetailScreen(
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             AsyncImage(
                 model = pokemon.imageUrl,
                 contentDescription = pokemon.name,
@@ -59,7 +62,9 @@ fun DetailScreen(
                     .clip(CircleShape)
                     .background(Color(0xFFF0F0F0)),
                 contentScale = ContentScale.Crop
+
             )
+            Log.d("DetailScreen", "Image URL: ${pokemon.imageUrl}")
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -71,7 +76,7 @@ fun DetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 💪 Abilities
+
             Text(
                 text = "Abilities:",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
@@ -86,7 +91,7 @@ fun DetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 🏷️ Tipe Pokémon
+
             Text(
                 text = "Types:",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)

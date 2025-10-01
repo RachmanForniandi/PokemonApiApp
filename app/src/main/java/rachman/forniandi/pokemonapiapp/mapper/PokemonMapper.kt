@@ -11,6 +11,8 @@ fun PokemonDetailResponse.toDomain(): Pokemon {
         imageUrl = sprites.frontDefault ?: "",
         abilities = abilities.map { it.ability.name },
         types = types.map { it.type.name }
+
+
     )
 }
 

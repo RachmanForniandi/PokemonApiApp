@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import rachman.forniandi.pokemonapiapp.data.local.AppDatabase
+import rachman.forniandi.pokemonapiapp.data.local.SessionManager
 import rachman.forniandi.pokemonapiapp.data.local.UserDao
 import rachman.forniandi.pokemonapiapp.data.remote.PokeApiService
 import retrofit2.Retrofit
@@ -38,4 +39,12 @@ object AppModule {
     @Singleton
     fun providePokeApi(retrofit: Retrofit): PokeApiService =
         retrofit.create(PokeApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSessionManager(
+        @ApplicationContext context: Context
+    ): SessionManager {
+        return SessionManager(context)
+    }
 }

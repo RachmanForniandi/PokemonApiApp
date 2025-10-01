@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import rachman.forniandi.pokemonapiapp.data.local.SessionManager
 import rachman.forniandi.pokemonapiapp.data.repository.UserRepository
 import rachman.forniandi.pokemonapiapp.domain.User
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
 
     var loginState by mutableStateOf<User?>(null)
@@ -29,6 +31,10 @@ class AuthViewModel @Inject constructor(
                 loginState = user
                 onSuccess()
             }
+            sessionManager.saveSession(
+                username = user?.username ?: "",
+                email = user?.email ?: ""
+            )
         }
     }
 
@@ -43,6 +49,9 @@ class AuthViewModel @Inject constructor(
 
     fun logout() {
         loginState = null
+        viewModelScope.launch {
+            sessionManager.clearSession()
+        }
     }
 
 

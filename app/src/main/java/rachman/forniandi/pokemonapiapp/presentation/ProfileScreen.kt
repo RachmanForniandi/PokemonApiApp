@@ -22,24 +22,39 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
+import rachman.forniandi.pokemonapiapp.Screen
+import rachman.forniandi.pokemonapiapp.data.local.SessionManager
 import rachman.forniandi.pokemonapiapp.presentation.auth.AuthViewModel
 
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel(),
+    sessionManager: SessionManager,
     onLogout: () -> Unit = {}
 ) {
     val user = authViewModel.loginState
+    val username by sessionManager.username.collectAsState(initial = "")
+    val email by sessionManager.email.collectAsState(initial = "")
+    val context = LocalContext.current
+    //val sessionManager = remember { SessionManager(context) }
+
+    //ProfileScreen(navController = navController, sessionManager = sessionManager)
 
     Column(
         modifier = modifier
@@ -72,14 +87,15 @@ fun ProfileScreen(
 
 
             Text(
-                text = user?.username ?: "Unknown User",
+                text = "Username: $username",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
             )
 
             Text(
-                text = user?.email ?: "No email",
-                style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
+                text = "Email: $email", style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
             )
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
 
 
@@ -87,6 +103,9 @@ fun ProfileScreen(
             onClick = {
                 authViewModel.logout()
                 onLogout()
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Main.route) { inclusive = true }
+                }
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFD32F2F), // merah
