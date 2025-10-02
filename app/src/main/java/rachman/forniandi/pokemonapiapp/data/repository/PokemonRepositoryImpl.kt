@@ -12,6 +12,7 @@ import javax.inject.Inject
 class PokemonRepositoryImpl @Inject constructor(
     private val pokeApi: PokeApiService
 ) : PokemonRepository {
+
     override suspend fun getPokemonList(
         limit: Int,
         offset: Int

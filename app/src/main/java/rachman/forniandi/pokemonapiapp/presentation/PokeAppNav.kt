@@ -18,13 +18,18 @@ fun PokeAppNav(modifier: Modifier = Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route,
+        startDestination = Screen.SplashScreen.route,
         modifier = modifier
     ) {
         //check session
         /*composable(Screen.CheckSession.route) {
             CheckSession(navController = navController)
         }*/
+
+        //splash
+        composable(Screen.SplashScreen.route) {
+            SplashScreen(navController = navController)
+        }
 
         //login
         composable(Screen.Login.route) {
