@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import rachman.forniandi.pokemonapiapp.presentation.PokeAppNav
 import rachman.forniandi.pokemonapiapp.ui.theme.PokemonApiAppTheme
@@ -21,7 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PokeAppNav()
+            val navController = rememberNavController()
+            PokeAppNav(navController)
         }
     }
 }

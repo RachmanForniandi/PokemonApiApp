@@ -46,7 +46,7 @@ fun ProfileScreen(
     navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel(),
     sessionManager: SessionManager,
-    onLogout: () -> Unit = {}
+    onLogout:  () -> Unit = {}
 ) {
     val user = authViewModel.loginState
     val username by sessionManager.username.collectAsState(initial = "")

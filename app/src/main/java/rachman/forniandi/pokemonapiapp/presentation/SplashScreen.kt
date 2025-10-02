@@ -35,16 +35,20 @@ fun SplashScreen(
     val isLoggedIn by sessionManager.isLoggedIn.collectAsState(initial = false)
 
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(isLoggedIn) {
         delay(3000)
 
         if (isLoggedIn){
             navController.navigate(Screen.Main.route) {
-                popUpTo("splash") { inclusive = true }  // supaya splash tidak kembali
+                popUpTo(0) { inclusive = true }  // supaya splash tidak kembali
+                launchSingleTop = true
             }
         }else{
             navController.navigate(Screen.Login.route) {
-                popUpTo("splash") { inclusive = true }  // supaya splash tidak kembali
+                popUpTo(Screen.SplashScreen.route) {
+                    inclusive = true
+                } // supaya splash tidak kembali
+                launchSingleTop = true
             }
         }
 
@@ -55,7 +59,8 @@ fun SplashScreen(
         color = MaterialTheme.colorScheme.background
     ) {
 
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.poke_ball))
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.pokeball_loading))
         val progress by animateLottieCompositionAsState(
             composition = composition,
             iterations = LottieConstants.IterateForever

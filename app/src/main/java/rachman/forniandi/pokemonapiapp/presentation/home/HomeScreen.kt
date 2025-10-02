@@ -48,10 +48,10 @@ import rachman.forniandi.pokemonapiapp.data.local.SessionManager
 fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel? = null
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val homeViewModel = viewModel ?: hiltViewModel()
-    val pokemons = homeViewModel.pokemonList
+
+    val pokemons = viewModel.pokemonList
     var searchQuery by remember { mutableStateOf("") }
 
     Column(
@@ -82,7 +82,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate(Screen.Detail.createRoute(pokemon.name))
+                            navController.navigate(Screen.Detail.route + "/${pokemon.name}")
                         },
                     elevation = CardDefaults.cardElevation(4.dp),
                     shape = RoundedCornerShape(16.dp)

@@ -21,10 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
 
 @Composable
-fun RegisterScreen(viewModel: AuthViewModel= hiltViewModel(),
-                   onRegisterSuccess: () -> Unit) {
+fun RegisterScreen(navController: NavController,viewModel: AuthViewModel= hiltViewModel(),
+                   ) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -44,7 +45,7 @@ fun RegisterScreen(viewModel: AuthViewModel= hiltViewModel(),
 
 
         Button(onClick = {
-            viewModel.register(username, email, password, onRegisterSuccess)
+            viewModel.register(username, email, password)
         }) {
             Text("Register")
         }

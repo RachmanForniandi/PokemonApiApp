@@ -2,6 +2,7 @@ package rachman.forniandi.pokemonapiapp.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,18 +14,14 @@ import rachman.forniandi.pokemonapiapp.presentation.auth.RegisterScreen
 import rachman.forniandi.pokemonapiapp.presentation.detail.DetailScreen
 
 @Composable
-fun PokeAppNav(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
+fun PokeAppNav(navController: NavHostController) {
+
 
     NavHost(
         navController = navController,
         startDestination = Screen.SplashScreen.route,
-        modifier = modifier
+        //modifier = modifier
     ) {
-        //check session
-        /*composable(Screen.CheckSession.route) {
-            CheckSession(navController = navController)
-        }*/
 
         //splash
         composable(Screen.SplashScreen.route) {
@@ -34,22 +31,13 @@ fun PokeAppNav(modifier: Modifier = Modifier) {
         //login
         composable(Screen.Login.route) {
             LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(Screen.Main.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true } // hapus stack login
-                    }
-                },
-                onNavigateToRegister = {
-                    navController.navigate(Screen.Register.route)
-                }
+                navController = navController
             )
         }
 
         //register
         composable(Screen.Register.route) {
-            RegisterScreen(
-                onRegisterSuccess = { navController.popBackStack() } // kembali ke login
-            )
+            RegisterScreen(navController = navController)
         }
 
         //main
@@ -58,12 +46,13 @@ fun PokeAppNav(modifier: Modifier = Modifier) {
         }
 
         //detail
-        composable(
-            route = Screen.Detail.route,
-            arguments = listOf(navArgument("name") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val name = backStackEntry.arguments?.getString("name") ?: ""
-            DetailScreen(name = name)
+        composable(Screen.Detail.route + "/{pokemonName}") { backStackEntry ->
+            val pokemonName = backStackEntry.arguments?.getString("pokemonName") ?: ""
+            DetailScreen(
+                navController = navController,
+                name = pokemonName
+            )
         }
+
     }
 }
