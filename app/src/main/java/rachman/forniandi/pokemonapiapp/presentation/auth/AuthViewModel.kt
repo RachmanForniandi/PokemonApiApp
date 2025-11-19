@@ -20,40 +20,55 @@ class AuthViewModel @Inject constructor(
     private val sessionManager: SessionManager
 ) : ViewModel() {
 
-    private val _loginState = MutableStateFlow<Boolean>(false)
+    private val _loginState = MutableStateFlow(false)
     val loginState: StateFlow<Boolean> = _loginState
+
+    private val _registerSuccess = MutableStateFlow(false)
+    val registerSuccess: StateFlow<Boolean> = _registerSuccess
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
+            _isLoading.value = true
+            errorMessage = null
+
             val user = userRepository.login(email, password)
+
             if (user != null) {
                 sessionManager.saveSession(user.username, user.email)
                 _loginState.value = true
-                //onSuccess()
             } else {
-                errorMessage = "Invalid email or password"
+                errorMessage = "Email atau password salah"
             }
-            sessionManager.saveSession(
-                username = user?.username ?: "",
-                email = user?.email ?: ""
-            )
+
+            _isLoading.value = false
         }
     }
 
     fun register(username: String, email: String, password: String) {
         viewModelScope.launch {
-            val newUser = User(id = 0, username = username, email = email)
-            userRepository.register(newUser, password)
-            //onSuccess()
+
+            _isLoading.value = true
+            errorMessage = null
+            _registerSuccess.value = false
+
+            try {
+                val newUser = User(id = 0, username = username, email = email)
+                userRepository.register(newUser, password)
+                _registerSuccess.value = true
+            }catch (e: Exception){
+                errorMessage = "Gagal register: ${e.message}"
+            }
+            _isLoading.value = false
         }
     }
 
-
     fun logout() {
-        //loginState = null
         viewModelScope.launch {
             sessionManager.clearSession()
             _loginState.value = false
